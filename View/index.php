@@ -13,18 +13,18 @@
 			<form class="ui form column" action="/home/store" method="POST">
 				<div class="field">
 					<label for="content">Nội dung: </label>
-					<textarea name="content"></textarea>
+					<textarea name="content" required=""></textarea>
 				</div>
 				<div class="field">
-					<label for="name">Tên / Tiêu đề: </label><input type="text" name="name" max="45">
+					<label for="name">Tên / Tiêu đề: </label><input type="text" name="name" max="45" required="">
 				</div>
 				<div class="field">
 					<label for="password">Mật Khẩu</label>
-					<input type="password" name="password">
+					<input type="password" name="password" required="">
 				</div>
 				<div class="field">
 					<label for="syntax">Ngôn ngữ</label>
-					<select name="syntax" class="">
+					<select name="syntax" class="" required="">
 						<?php foreach ($languages as $key => $value): ?>
 						<option value="<?php echo $value; ?>"><?php echo $value; ?></option>
 						<?php endforeach ?>
