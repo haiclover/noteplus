@@ -18,31 +18,29 @@ class NoteController extends Controller{
 	}
 	public function check($id = null){
 		$this->getDataFromDB($id);
-
-		if( isset($_SESSION['password']) ){
-			header("Location: /note/index/" . $id);
-		}
-
-		if(empty($_POST['password'])){
-			return $this->view('login',['id'=>$id]);
-		}
-		else{
+		if( !empty($_POST['password']) ){
 			if((md5($_POST['password']) !== self::$row['password'])){
 				return $this->view('login',['id'=>$id]);
+				die();
 			}
-			else{
-				$_SESSION['password'] = self::$row['password'];
-				header("Location: /note/index/" . $id);
-			}
+			$_SESSION['name'] = self::$row['name'];
+			$_SESSION['password'] = self::$row['password'];
+			header("Location: /note/index/" . $id);
+		}
+		else{
+			return $this->view('login',['id'=>$id]);
+			die();
+		}
+	}
+	public function validate($id = null){
+		if( (!isset($_SESSION['password'],$_SESSION['name']) || ($_SESSION['name'] !== self::$row['name']) || ($_SESSION['password'] !== self::$row['password'])) && self::$row['password'] != ''){
+			$this->check($id);
+			die();
 		}
 	}
 	public function index($id = null){
 		$this->getDataFromDB($id);
-		if( empty($_SESSION['password']) ){
-			$this->check($id);
-			die();
-		}
-		// session_unset();
+		$this->validate($id);
 		$data = [
 				'homepage' => self::baseUrl(),
 				'title' => self::$row['name'],
@@ -56,11 +54,13 @@ class NoteController extends Controller{
 	}
 	public function raw($id = null){
 		$this->getDataFromDB($id);
+		$this->validate($id);
 		$data = ['content' => self::$row['content']];
 		return $this->view('raw',$data);
 	}
 	public function download($id = null){
 		$this->getDataFromDB($id);
+		$this->validate($id);
 		$file = __DIR__ . '/../View/uploads/' . self::$row['name'].'.'.self::$row['syntax'];
 		$txt = fopen($file, "w") or die("Unable to open file!");
 		fwrite($txt, html_entity_decode(self::$row['content']));
@@ -78,6 +78,7 @@ class NoteController extends Controller{
 	}
 	public function embed($id = null){
 		$this->getDataFromDB($id);
+		$this->validate($id);
 		$data = [
 					'link' => self::$baseUrl() . '/note/index/' . $id
 				];
@@ -85,6 +86,7 @@ class NoteController extends Controller{
 	}
 	public function print($id = null){
 		$this->getDataFromDB($id);
+		$this->validate($id);
 		$data = [
 					'content' => self::$row['content'],
 					'link' => self::$baseUrl() . '/note/index/' . $id
