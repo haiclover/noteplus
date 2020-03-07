@@ -20,7 +20,7 @@
 				</div>
 				<div class="field">
 					<label for="password">Mật Khẩu</label>
-					<input type="password" name="password" required="">
+					<input type="password" name="password">
 				</div>
 				<div class="field">
 					<label for="syntax">Ngôn ngữ</label>

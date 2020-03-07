@@ -21,14 +21,14 @@ class HomeController extends Controller{
 	public function store(){
 		$content = !empty($_POST['content']) ? $_POST['content'] : null;
 		$name = !empty($_POST['name']) ? $_POST['name'] : null;
-		$password = !empty($_POST['password']) ? $_POST['password'] : null;
+		$password = !empty($_POST['password']) ? md5($_POST['password']) : '';
 		$syntax = !empty($_POST['syntax']) ? $_POST['syntax'] : null;
 
 		if(isset($content, $name, $password, $syntax)){
 			$db = new Database();
 			$sql = "INSERT INTO note(name,password,syntax,content) VALUES(:name,:password,:syntax,:content)";
 			$params = ['name' => htmlentities($name),
-					   'password' => htmlentities(md5($password)),
+					   'password' => htmlentities($password),
 					   'syntax' => htmlentities(strtolower($syntax)),
 					   'content' => htmlentities($content)];
 			$id = $db->insert($sql,$params);

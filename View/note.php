@@ -38,15 +38,18 @@
 <body>
 	<main>
 		<div class="ui top attached header">
-			<div class="ui left aligned grid">
-				<?php echo @$name; ?>
-			</div>
-			<div class="ui right aligned grid">
-				<div class="column">
-					<a class="ui basic button" href="<?php echo @$homepage; ?>">
-					  <i class="home icon"></i>
-					  Home
-					</a>
+			<div class="ui two column grid">
+				<div class="three wide column">
+					<div class="ui labeled button" tabindex="0">
+					  <a class="ui button" href="<?php echo @$homepage; ?>">
+					    <i class="home icon"></i> Home
+					  </a>
+					  <div class="ui basic label">
+					    <?php echo @$name; ?>
+					  </div>
+					</div>
+				</div>
+				<div class="right floated seven wide column">
 					<a class="ui basic button" href="<?php echo @$raw; ?>">
 					  <i class="clipboard outline icon"></i>
 					  RAW

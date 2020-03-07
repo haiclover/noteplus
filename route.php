@@ -16,7 +16,7 @@ $pages = array(
 		'download' => 'NoteController@download',
 		'embed' => 'NoteController@embed',
 		'print'  => 'NoteController@print',
-		'check' => 'NoteController@check',
+		'check' => 'NoteController@checkPwd',
 	],
 );
 $page = strtolower($page);
@@ -28,9 +28,9 @@ if(!array_key_exists($page, $pages) || !array_key_exists($action, $pages[$page])
 
 require_once 'autoload.php';
 
-$page = explode("@",$pages[$page][$action])[0];
+$pagesArray = explode("@",$pages[$page][$action]);
+[$page,$action] = $pagesArray;
 $page = "Controller\\" . ucfirst($page);
 $newPage = new $page;
-
-$newPage->$action(isset($id) ? $id : '');
+$newPage->$action(isset($id) ? $id : 1);
 

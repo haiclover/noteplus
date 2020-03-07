@@ -16,13 +16,14 @@ class Database{
 		}
 		return self::$instance;
 	}
-	public static function select($sql,$params){
+	public static function select(string $sql,array $params,int &$rowCount){
 		$stmt = self::$instance->prepare($sql);
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
 		$stmt->execute($params);
+		$rowCount = $stmt->rowCount();
 		return $stmt->fetch();
 	}
-	public static function insert($sql,$params){
+	public static function insert(string $sql,array $params){
 		$stmt = self::$instance->prepare($sql);
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
 		$stmt->execute($params);
