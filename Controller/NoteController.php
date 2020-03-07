@@ -31,6 +31,7 @@ class NoteController extends Controller
 
     public function checkPwd(int $id = 1)
     {
+        self::$row = $this->getRowDB($id);
         if (!empty($_POST['password'])) {
             if (md5($_POST['password']) !== self::$row['password']) {
                 return $this->view('login', ['id' => $id]);
